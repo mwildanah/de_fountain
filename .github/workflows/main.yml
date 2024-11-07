@@ -16,7 +16,20 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2  # Updated to v2
 
-      - name: Build and run Docker container
-        run: |
-          docker build -t web-scraper .
-          docker run web-scraper
+      - name: Build Docker image
+        run: docker build -t web-scraper .
+
+      - name: Create output directory for results
+        run: mkdir -p ${{ github.workspace }}/scraped_data
+
+      - name: Run Docker container and mount output directory
+        run: docker run -v ${{ github.workspace }}/scraped_data:/app/data web-scraper
+
+      - name: List scraped files
+        run: ls -l ${{ github.workspace }}/scraped_data
+
+      - name: Upload scraped data as an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: scraped-data
+          path: ${{ github.workspace }}/scraped_data
