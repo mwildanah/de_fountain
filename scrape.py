@@ -2,6 +2,10 @@ import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 
 def scroll_down_to_bottom(driver):
@@ -18,12 +22,27 @@ def scroll_down_to_bottom(driver):
             break
 
 def scrape_page(url):
-    options = Options()
-    options.headless = True
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    chrome_options = Options()
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--window-size=1920x1080')
+    chrome_options.add_argument('--disable-blink-features=AutomationControlled')
+    chrome_options.add_argument('--disable-extensions')
+    chrome_options.add_argument('--disable-popup-blocking')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3')
 
-    driver = webdriver.Chrome(options=options)
+    chrome_options.add_experimental_option('excludeSwitches', ['enable-logging', 'enable-automation'])
+    chrome_options.add_experimental_option('useAutomationExtension', False)
+    chrome_options.binary_location = "/usr/bin/chromium"
+
+    service = Service(executable_path='/usr/bin/chromedriver')
+    driver = webdriver.Chrome(service=service, options=chrome_options)
     driver.get(url)
+
+    # Wait until the main content is loaded (adjust selector accordingly)
+    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "div.css-bk6tzz")))
 
     # Scroll down until the bottom of the page
     scroll_down_to_bottom(driver)
@@ -123,8 +142,8 @@ if __name__ == "__main__":
                         'item_found': len(result),
                         'get_date': time.strftime('%Y-%m-%d')})
     df_eval = pd.DataFrame(data_list)
-    df.to_csv('result_crawl_{}_material_bangunan.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
-    df_eval.to_csv('evaluation_subcat_{}_material_bangunan.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
+    df.to_csv('/app/data/result_crawl_{}_material_bangunan.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
+    df_eval.to_csv('/app/data/evaluation_subcat_{}_material_bangunan.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
     print("data material bangunan for {} is done".format(time.strftime('%Y_%m_%d')))
     print("--- %s minutes processing time ---" % (int(time.time() - start_time)/60))
 
@@ -147,7 +166,7 @@ if __name__ == "__main__":
                         'item_found': len(result),
                         'get_date': time.strftime('%Y-%m-%d')})
     df_eval = pd.DataFrame(data_list)
-    df.to_csv('result_crawl_{}_cat.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
-    df_eval.to_csv('evaluation_subcat_{}_cat.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
+    df.to_csv('/app/data/result_crawl_{}_cat.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
+    df_eval.to_csv('/app/data/evaluation_subcat_{}_cat.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
     print("data cat for {} is done".format(time.strftime('%Y_%m_%d')))
     print("--- %s minutes processing time ---" % (int(time.time() - start_time)/60))
