@@ -10,6 +10,8 @@ COPY . /app
 # Install Python dependencies
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
+RUN mkdir -p /app/data
+
 # Install Chromium and ChromeDriver
 RUN apt-get update && apt-get install -y \
     chromium \
