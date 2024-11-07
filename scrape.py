@@ -142,8 +142,8 @@ if __name__ == "__main__":
                         'item_found': len(result),
                         'get_date': time.strftime('%Y-%m-%d')})
     df_eval = pd.DataFrame(data_list)
-    df.to_csv('/app/data/result_crawl_{}_material_bangunan.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
-    df_eval.to_csv('/app/data/evaluation_subcat_{}_material_bangunan.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
+    df.to_csv('/data/result_crawl_{}_material_bangunan.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
+    df_eval.to_csv('/data/evaluation_subcat_{}_material_bangunan.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
     print("data material bangunan for {} is done".format(time.strftime('%Y_%m_%d')))
     print("--- %s minutes processing time ---" % (int(time.time() - start_time)/60))
 
@@ -166,7 +166,7 @@ if __name__ == "__main__":
                         'item_found': len(result),
                         'get_date': time.strftime('%Y-%m-%d')})
     df_eval = pd.DataFrame(data_list)
-    df.to_csv('/app/data/result_crawl_{}_cat.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
-    df_eval.to_csv('/app/data/evaluation_subcat_{}_cat.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
+    df.to_csv('/data/result_crawl_{}_cat.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
+    df_eval.to_csv('/data/evaluation_subcat_{}_cat.csv'.format(time.strftime('%Y_%m_%d_%H_%M_%S')),index=False)
     print("data cat for {} is done".format(time.strftime('%Y_%m_%d')))
     print("--- %s minutes processing time ---" % (int(time.time() - start_time)/60))
