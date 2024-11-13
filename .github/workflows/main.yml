@@ -24,8 +24,11 @@ jobs:
           mkdir -p output_data
           docker run -v $(pwd)/output_data:/data web-scraper
 
+      - name: Get current date
+        run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        
       - name: Upload scraped data
         uses: actions/upload-artifact@v3
         with:
-          name: scraped-data
+          name: "scraped-data-${{ env.CURRENT_DATE }}"
           path: output_data/*.csv
