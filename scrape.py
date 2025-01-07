@@ -8,6 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pandas as pd
 
+#extracting data from tokopedia
 def scroll_down_to_bottom(driver):
     SCROLL_PAUSE_TIME = 3.0
     last_height = driver.execute_script("return document.body.scrollHeight")
