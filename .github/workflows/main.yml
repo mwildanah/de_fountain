@@ -28,7 +28,7 @@ jobs:
         run: echo "CURRENT_DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
         
       - name: Upload scraped data
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: "scraped-data-${{ env.CURRENT_DATE }}"
           path: output_data/*.csv
