@@ -54,8 +54,9 @@ def scrape_page(url):
     # Get the HTML content after scrolling
     html = driver.page_source
     driver.quit()
-    return html
+    return HTML
 
+#should updated with better code
 def main(page,subcat):
     url = 'https://www.tokopedia.com/p/pertukangan/material-bangunan/{}?page={}'.format(subcat,page)
     html_response = scrape_page(url)
