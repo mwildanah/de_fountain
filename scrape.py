@@ -54,7 +54,7 @@ def scrape_page(url):
     # Get the HTML content after scrolling
     html = driver.page_source
     driver.quit()
-    return HTML
+    return html
 
 #should updated with better code
 def main(page,subcat):
